@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Questions | Signup</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <link rel="shortcut icon" type="image/png" href="/static/img/favicon.png">
+    <link rel="stylesheet" type="text/css" href="/static/main.css" />
+  </head>
+  <body>
+  <br><br><br>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+<div class="container">
+    <div class="col-lg-offset-4 col-lg-4">
+        <h2 class="text-center">注册</h2>
+        {{range .Flash}}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+        {{.}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+            {{end}}
+            <form action="/save" method="POST">
+                <label>用户名:</label><br>
+                <input class="form-control" type="text" value="{{.username}}" name="username" required>
+                <span style="color:red">{{.a}}</span>
+                <br>
+                <label>邮箱:</label><br>
+                <input class="form-control" type="text" value="{{.email}}" name="email" required>
+                <span style="color:red">{{.b}}</span>
+                <br>
+                <label>密码:</label><br>
+                <input class="form-control" type="password" value="{{.password}}" name="password" required>
+                <span style="color:red">{{.d}}</span>
+                <br>
+                <label>确认密码:</label><br>
+                <input class="form-control" type="password" name="passwordconfirm" required>
+                <span style="color:red">{{.d}}</span>
+                <br>
+
+                <input class="btn btn-lg btn-primary btn-block" type="submit" value="Sign Up">
+                <div class="form-message">
+                    <p>
+                        已有账户? <a href="/login"> 登录</a>.
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+</body>
+</html>

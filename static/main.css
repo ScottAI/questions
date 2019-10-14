@@ -1,0 +1,57 @@
+@import url(https://fonts.googleapis.com/css?family=Ubuntu:400,300,700);
+
+
+ body {
+   font-family: 'Ubuntu', sans-serif !important;
+ }
+
+.hero-spacer {
+    margin-top: 40px;
+}
+
+.hero-feature {
+    margin-bottom: 30px;
+}
+
+footer {
+    margin: 50px 0;
+}
+
+.form-control {
+	height: 50px;
+}
+
+.btn-group-lg>.btn, .btn-lg {
+    margin-bottom: 10px;
+    height: 50px;
+}
+
+/* filter modal */
+.modal-content {
+    padding: 25px;
+    border-radius: 4px;
+}
+
+#filter {
+  width: 100%;
+}
+
+@media (min-width: 1200px) {
+  .container {
+      width: 1100px;
+  }
+}
+
+.radio, .checkbox {
+    display: block;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+@media (min-width: 1200px) {
+.navbar-form .input-group > .form-control {
+    width: 670px;
+}
+ input[type=number] {
+     width:100%;
+ }

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Questions | Show</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="/static/jquery.twbsPagination.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <link rel="shortcut icon" type="image/png" href="/static/img/favicon.png">
+    <link rel="stylesheet" type="text/css" href="/static/main.css" />
+    <style>
+        form {
+        display: inline-block;
+        position: relative;
+        }
+        form input {
+        padding-right: 4.6em;
+        height: 34px;
+        width:100%;
+        }
+        form button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 4.4em;
+    }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">问答</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          {{if not .userId }}
+          <li>
+            <a href="/login?next=/chat"><i class="fa fa-commenting-o" aria-hidden="true"></i>&nbsp; 聊天</a>
+          </li>
+          {{else}}
+          <li>
+            <a href="/chat"><i class="fa fa-commenting-o" aria-hidden="true"></i>&nbsp; 聊天</a>
+          </li>
+          {{end}}
+          <li>
+            <a href="/categories"> 分类</a>
+          </li>
+          <li>
+            <a href="/rank"> 用户榜</a>
+          </li>
+          <li>
+            <a href="/"> 问题</a>
+          </li>
+          {{if .userId }}
+              {{if eq .userId 1}}
+              <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">欢迎 {{.user}} <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                      <li><a href="/admin"><i class="fa fa-user"></i> 管理</a></li>
+                      <li><a href="/logout"><i class="fa fa-sign-out"></i> 登出</a></li>
+                  </ul>
+              </li>
+              {{else}}
+              <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">欢迎 {{.user}} <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                      <li><a href="/profile/{{.userId}}"><i class="fa fa-user"></i> 个人信息</a></li>
+                      <li><a href="/logout"><i class="fa fa-sign-out"></i> 登出</a></li>
+                  </ul>
+              </li>
+              {{end}}
+          {{else}}
+          <li>
+            <a href="/login"> 登录</a>
+          </li>
+          <li>
+            <a href="/signup"> 注册</a>
+          </li>
+          {{end}}
+        </ul>
+      </div>
+    </nav>
+
+  <style>
+    #chat {
+      text-align: left;
+      background: #f1f1f1;
+      width: 100%;
+      min-height: 300px;
+      padding: 20px;
+    }
+  </style>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <center>
+              <h3>聊天</h3>
+            </center>
+              <span>在线用户:</span>
+              {{range .results}}
+              <span>{{.Username}},</span>
+              {{end}}<br><br>
+              <center>
+            <div class="form-group">
+              <pre class="form-control" id="chat"></pre><br>
+              <input class="form-control" placeholder="Type message" id="text" type="text">
+            </div>
+            </center>
+        </div>
+      </div>
+    </div>
+    <script>
+      var url = "ws://" + window.location.host + "/ws";
+      var ws = new WebSocket(url);
+      var name = {{.user}};
+      var chat = document.getElementById("chat");
+      var text = document.getElementById("text");
+      var now = function () {
+        var iso = new Date().toISOString();
+        return iso.split("T")[1].split(".")[0];
+      };
+      ws.onmessage = function (msg) {
+        var line =  now() + " " + msg.data + "\n";
+        chat.innerText += line;
+      };
+      text.onkeydown = function (e) {
+        if (e.keyCode === 13 && text.value !== "") {
+          ws.send("[ " + name + " ] " + text.value);
+          text.value = "";
+        }
+      };
+    </script>
+  </body>
+</html>

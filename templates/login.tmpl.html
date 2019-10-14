@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Questions | Login</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <link rel="shortcut icon" type="image/png" href="/static/img/favicon.png">
+    <link rel="stylesheet" type="text/css" href="/static/main.css" />
+  </head>
+  <body>
+    <br><br><br>
+
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-offset-4 col-lg-4">
+        <h2 class="text-center">登录</h2>
+        {{range .Flash}}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+        {{.}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        {{end}}
+          <form action='/signin' method="POST">
+              <input type="hidden" name="next" value="{{.path}}">
+                <label>Username:</label>
+                <input class="form-control" type="text" name="username"><br>
+                <label>Password:</label>
+                <input class="form-control" type="password" name="password"><br>
+                <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
+            </form>
+            <div class="form-message">
+                <p>
+                    您还没有账户? <a href="/signup"> 注册</a>.
+                </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+</div>
+</div>
+</div>
+</body>
+</html>

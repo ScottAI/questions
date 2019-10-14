@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Questions | Home</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="/static/jquery.twbsPagination.js"></script>
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" type="image/png" href="/static/img/favicon.png">
+    <link rel="stylesheet" type="text/css" href="/static/main.css" />
+    <style>
+    p {
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">问答</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          {{if not .userId }}
+          <li>
+            <a href="/login?next=/chat"><i class="fa fa-commenting-o" aria-hidden="true"></i>&nbsp; 聊天</a>
+          </li>
+          {{else}}
+          <li>
+            <a href="/chat"><i class="fa fa-commenting-o" aria-hidden="true"></i>&nbsp; 聊天</a>
+          </li>
+          {{end}}
+          <li>
+            <a href="/categories"> 分类</a>
+          </li>
+          <li>
+            <a href="/rank"> 用户榜</a>
+          </li>
+          <li>
+            <a href="/"> 问题</a>
+          </li>
+
+          {{if .userId }}
+              {{if eq .userId 1}}
+              <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">欢迎 {{.user}} <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                      <li><a href="/admin"><i class="fa fa-user"></i> 管理</a></li>
+                      <li><a href="/logout"><i class="fa fa-sign-out"></i> 登出</a></li>
+                  </ul>
+              </li>
+              {{else}}
+              <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">欢迎 {{.user}} <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                      <li><a href="/profile/{{.userId}}"><i class="fa fa-user"></i> 个人信息</a></li>
+                      <li><a href="/logout"><i class="fa fa-sign-out"></i> 登出</a></li>
+                  </ul>
+              </li>
+              {{end}}
+          {{else}}
+          <li>
+            <a href="/login"> 登录</a>
+          </li>
+          <li>
+            <a href="/signup"> 注册</a>
+          </li>
+          {{end}}
+        </ul>
+      </div>
+    </nav>
+    {{$user := .user}}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <ul class="list-group">
+                    <li class="list-group-item text-muted">Profile <i class="fa fa-user fa-1x"></i></li>
+                    {{range .users}}
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Username</strong></span>{{.Username}}</li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Email</strong></span>{{.Email}}</li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Joined</strong></span>{{.CreatedAt.Format "2006-01-02 15:04"}}</li>
+                    {{end}}
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Questions</strong></span>{{.countQuestions}}</li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Answers</strong></span>{{.countAnswers}}</li>
+                </ul>
+                {{if .user}}
+                  {{range .users}}
+                    {{if eq .Username $user}}
+                      <form action="/deleteuser/{{.Id}}" method="post">
+                          <button class="btn btn-danger"> Delete account</button><br>
+                      </form>
+                    {{end}}
+                  {{end}}
+                {{end}}
+
+            </div>
+            <!--/col-3-->
+            <div class="col-sm-9">
+
+                <ul class="nav nav-tabs" id="myTab">
+                    <li class="active"><a href="#questions" data-toggle="tab">Questions</a></li>
+                    <li><a href="#answers" data-toggle="tab">Answers</a></li>
+
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="questions">
+                        <br>
+                        {{if .user}}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-1">Title</th>
+        				                        <th class="col-md-1">Content</th>
+        				                        <th class="col-md-1">Created</th>
+                                        <th class="col-md-1">Views</th>
+                                        <th class="col-md-1">Likes</th>
+                                        <th class="col-md-1"><em class="fa fa-cog"></em></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                	{{range .questions}}
+                                    <tr>
+                                      <td>{{.Title}}</td>
+      				                        <td><p>{{.Body}}</p></td>
+      				                        <td>{{.CreatedAt.Format "2006-01-02 15:04"}}</td>
+                                      <td>{{.Views}}</td>
+                                      <td>{{.Likes}}</td>
+                                      {{if eq .User.Username $user}}
+                                      <td>
+                                        <form action="/delete/{{.Id}}" method="post">
+                                            <a href="/edit/{{.Id}}" class="btn btn-info"><i class="fa fa-pencil"></i></a>
+                                            <button class="btn btn-danger"><i class="fa fa-trash"></i></button><br>
+                                        </form>
+                                      </td>
+                                      {{else}}
+                                      <td><em class="fa fa-cog"></td>
+                                      {{end}}
+
+                                    </tr>
+                            	     {{end}}
+                                </tbody>
+                            </table>
+
+                            </div>
+                          </div>
+
+
+
+                        {{else}}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-1">Title</th>
+                                        <th class="col-md-1">Content</th>
+                                        <th class="col-md-1">Created</th>
+                                        <th class="col-md-1">Views</th>
+                                        <th class="col-md-1">Likes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  {{range .questions}}
+                                    <tr>
+                                      <td>{{.Title}}</td>
+                                      <td><p>{{.Body}}</p></td>
+                                      <td>{{.CreatedAt.Format "2006-01-02 15:04"}}</td>
+                                      <td>{{.Views}}</td>
+                                      <td>{{.Likes}}</td>
+                                    </tr>
+                                   {{end}}
+                                </tbody>
+                            </table>
+                        </div>
+                      </div>
+                        {{end}}
+
+                    <div class="tab-pane" id="answers">
+                        <br>
+                          {{if .user}}
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+            				                        <th class="col-md-1">Content</th>
+            				                        <th class="col-md-1">Created</th>
+                                            <th class="col-md-1">Dislikes</th>
+                                            <th class="col-md-1">Likes</th>
+                                            <th class="col-md-1"><em class="fa fa-cog"></em></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    	{{range .answers}}
+                                        <tr>
+          				                        <td><p>{{.Body}}</p></td>
+          				                        <td>{{.CreatedAt.Format "2006-01-02 15:04"}}</td>
+                                          <td>{{.DisLikes}}</td>
+                                          <td>{{.Likes}}</td>
+                                          {{if eq .User.Username $user}}
+                                          <td><form action="/answerdelete/{{.Id}}" method="post">
+                                              <a href="/answeredit/{{.Id}}" class="btn btn-info"><i class="fa fa-pencil"></i></a>
+                                              <button class="btn btn-danger"><i class="fa fa-trash"></i></button><br>
+                                          </form></td>
+                                          {{else}}
+                                          <td><em class="fa fa-cog"></td>
+                                          {{end}}
+
+                                        </tr>
+                                	     {{end}}
+                                    </tbody>
+                                </table>
+                        </div>
+                        {{else}}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-1">Content</th>
+                                        <th class="col-md-1">Created</th>
+                                        <th class="col-md-1">Dislikes</th>
+                                        <th class="col-md-1">Likes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  {{range .answers}}
+                                    <tr>
+                                      <td><p>{{.Body}}</p></td>
+                                      <td>{{.CreatedAt.Format "2006-01-02 15:04"}}</td>
+                                      <td>{{.DisLikes}}</td>
+                                      <td>{{.Likes}}</td>
+                                    </tr>
+                                   {{end}}
+                                </tbody>
+                            </table>
+                    </div>
+                    {{end}}
+                    </div>
+                    <!--/tab-pane-->
+
+                </div>
+                <!--/tab-content-->
+
+
+            </div>
+        </div>
+    </div>
+
+  </body>
+</html>

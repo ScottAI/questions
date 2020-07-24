@@ -4,10 +4,6 @@
     <list default="true" id="3961c97c-d495-4cf8-a67c-4b05a4a036d4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.MD" beforeDir="false" afterPath="$PROJECT_DIR$/README.MD" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/share-2019-10-12.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/share-2019-10-12.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/database/database.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/database/database.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/models/answer.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/models/answer.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/questions.db" beforeDir="false" afterPath="$PROJECT_DIR$/questions.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

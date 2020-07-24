@@ -13,7 +13,6 @@ var (
 )
 
 func init()  {
-	//database.DB, err = gorm.Open("mysql", "root:1234@/gindb?charset=utf8&parseTime=True&loc=Local")
 	DB, err = gorm.Open("sqlite3", "questions.db")
 	if err != nil {
 		fmt.Println("Status: ", err)
@@ -22,5 +21,4 @@ func init()  {
 	DB.Debug()
 	DB.LogMode(true)
 	DB.AutoMigrate(&models.User{}, &models.Question{}, &models.Answer{}, &models.Tag{})
-
 }

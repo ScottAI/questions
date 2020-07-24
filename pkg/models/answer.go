@@ -5,7 +5,6 @@ import (
 )
 
 type Answer struct {
-	//gorm.Model
 	Id               int    `gorm:"primary_key" json:"id"`
 	Body             string `sql:"type:text;" json:"body"`
 	CreatedAt        time.Time

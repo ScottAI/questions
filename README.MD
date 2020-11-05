@@ -1,5 +1,7 @@
 使用gin和gorm开发的问答系统
 
+项目代码清晰，非常适合初学者学习，本代码已经被我放入我的新书《Go微服务实战》中，作为基础篇的一个例子，是Go语言Web开发一个比较好的例子，欢迎大家Star！
+
 ##项目的结构图
 ![image](https://github.com/ScottAI/questions/blob/master/pictures/architecture.png)
 ##Go Web项目常用的一些分包：
